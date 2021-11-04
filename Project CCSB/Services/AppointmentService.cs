@@ -28,7 +28,7 @@ namespace Project_CCSB.Services
             else
             {
                 // Create appointment based on view model
-                Appointment appointment = new Appointment()
+                Appointments appointment = new Appointments()
                 {
                     TimeAndMoment = model.TimeAndMoment,
                     Action = model.Action

@@ -415,3 +415,7 @@ header {
 #vehicleRow {
     width: 2450px;
 }
+
+#vehicleIndexTable {
+    margin-left: -45px;
+}

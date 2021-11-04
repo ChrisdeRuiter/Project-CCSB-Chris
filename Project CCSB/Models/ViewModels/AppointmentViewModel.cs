@@ -7,7 +7,7 @@ namespace Project_CCSB.Models.ViewModels
 {
     public class AppointmentViewModel
     {
-        public int? AppointmentId { get; set; }
+        public int AppointmentId { get; set; }
         public DateTime TimeAndMoment { get; set; }
         public string Action { get; set; }
 
