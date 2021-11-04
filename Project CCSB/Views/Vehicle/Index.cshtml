@@ -1,75 +1,65 @@
-﻿@model Project_CCSB.Models.ViewModels.VehicleViewModel
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <div class="loginPage">
-        <div class="loginContainer">
-            <div class="loginLogo">
-                <img id="loginLogo1" src="~/images/logoCCSB.png" />
-            </div>
-            <h2>Voertuig registreren</h2>
-            <form method="post" asp-action="Index" asp-controller="Vehicle">
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group row">
-                    <label class="col-md-2" asp-for="VehicleBrand"></label>
-                    <div class="col-md-10">
-                        <input asp-for="VehicleBrand" class="form-control" />
-                        <span asp-validation-for="VehicleBrand" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-2" asp-for="VehicleType"></label>
-                    <div class="col-md-10">
-                        <select asp-for="VehicleType"
-                                asp-items="@Project_CCSB.Utility.Helper.GetVehicleForDropDown(User.IsInRole(Project_CCSB.Utility.Helper.Admin))"
-                                class="form-control">
-                            <option selected>-- Selecteer voertuig</option>
-                        </select>
-                        <span asp-validation-for="VehicleType" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-2" asp-for="Length"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Length" class="form-control" />
-                        <span asp-validation-for="Length" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-2" asp-for="VehicleKind"></label>
-                    <div class="col-md-10">
-                        <input asp-for="VehicleKind" class="form-control" />
-                        <span asp-validation-for="VehicleKind" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-2" asp-for="Licenseplate"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Licenseplate" class="form-control" />
-                        <span asp-validation-for="Licenseplate" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-2" asp-for="CustomerName"></label>
-                    <div class="col-md-10">
-                        <input asp-for="CustomerName" class="form-control" />
-                        <span asp-validation-for="CustomerName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="Registreer" class="registratieButton" />
-                    </div>
-                </div>
-            </form>
-            @section Scripts{
-                <partial name="_ValidationScriptsPartial" />
-            }
+﻿@model IEnumerable<Project_CCSB.Models.Vehicle>
+
+<div class="loginPage">
+    <div class="loginContainer">
+        <div class="loginLogo">
+            <img id="loginLogo1" src="~/images/logoCCSB.png" />
         </div>
+        <h2>Voertuig registreren</h2>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VehicleBrand)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VehicleType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Length)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VehicleKind)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LicensePlate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor()
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleBrand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Length)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleKind)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LicensePlate)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</body>
-</html>
+</div>
