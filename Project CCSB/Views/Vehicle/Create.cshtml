@@ -49,12 +49,7 @@
                             <span asp-validation-for="LicensePlate" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="customerId">Selecteer wie</label>
-                        <select id="customerId"
-                                asp-items="@(new SelectList(ViewBag.CustomerList, "Id", "Name"))"
-                                class="form-control"></select>
-                    </div>
+                    
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
                     </div>

@@ -6,26 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project_CCSB.Models;
-using Project_CCSB.Services;
 
 namespace Project_CCSB.Controllers
 {
-    public class VehicleController : Controller
+    public class Vehicle1Controller : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public VehicleController(ApplicationDbContext context)
+        public Vehicle1Controller(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Vehicle
+        // GET: Vehicle1
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicles.ToListAsync());
+            var applicationDbContext = _context.Vehicles.Include(v => v.ApplicationUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Vehicle/Details/5
+        // GET: Vehicle1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,6 +34,7 @@ namespace Project_CCSB.Controllers
             }
 
             var vehicle = await _context.Vehicles
+                .Include(v => v.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
@@ -43,18 +44,19 @@ namespace Project_CCSB.Controllers
             return View(vehicle);
         }
 
-        // GET: Vehicle/Create
+        // GET: Vehicle1/Create
         public IActionResult Create()
         {
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "FullName");
             return View();
         }
 
-        // POST: Vehicle/Create
+        // POST: Vehicle1/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleId,VehicleBrand,VehicleType,Length,VehicleKind,LicensePlate")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("VehicleId,VehicleBrand,VehicleType,Length,VehicleKind,LicensePlate,ApplicationUserId")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -62,10 +64,11 @@ namespace Project_CCSB.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.ApplicationUserId);
             return View(vehicle);
         }
 
-        // GET: Vehicle/Edit/5
+        // GET: Vehicle1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +81,16 @@ namespace Project_CCSB.Controllers
             {
                 return NotFound();
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.ApplicationUserId);
             return View(vehicle);
         }
 
-        // POST: Vehicle/Edit/5
+        // POST: Vehicle1/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,VehicleBrand,VehicleType,Length,VehicleKind,LicensePlate")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,VehicleBrand,VehicleType,Length,VehicleKind,LicensePlate,ApplicationUserId")] Vehicle vehicle)
         {
             if (id != vehicle.VehicleId)
             {
@@ -113,10 +117,11 @@ namespace Project_CCSB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.ApplicationUserId);
             return View(vehicle);
         }
 
-        // GET: Vehicle/Delete/5
+        // GET: Vehicle1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,6 +130,7 @@ namespace Project_CCSB.Controllers
             }
 
             var vehicle = await _context.Vehicles
+                .Include(v => v.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
@@ -134,7 +140,7 @@ namespace Project_CCSB.Controllers
             return View(vehicle);
         }
 
-        // POST: Vehicle/Delete/5
+        // POST: Vehicle1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

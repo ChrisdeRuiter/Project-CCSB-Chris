@@ -1,13 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Project_CCSB.Models.ApplicationUser> signinManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="~/css/site.css" />  
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <div id="container1">
         <div id="leftBlueContainer"></div>
         <div class="pictureDiv">
-        <img id="frontPicture" src="~/images/home-hero.jpg" />
+            <img id="frontPicture" src="~/images/home-hero.jpg" />
             <div class="pictureText">Camper- en Caravanstalling Bentelo</div>
         </div>
         <div id="rightBlueContainer"></div>
@@ -22,10 +23,20 @@
             We hebben al talloze tevreden klanten die elk jaar weer terugkeren om hun voertuig<br /> bij ons op te bergen.
         </h4>
     </div>
-    <div id="container3">
-        <h3 id="container3Title">Kosten</h3>
-        <h4 id="container3Text">De kosten voor het stallen van je camper of caravan is €45,- per meter in lengte.</h4>
-        <a id="appointmentLink" class="nav-link" href="/Appointments/Index">Afspraken inzien</a>
-    </div>
+    @if (signinManager.IsSignedIn(User))
+     {
+        <div id="container3">
+            <h3 id="container3Title">Kosten</h3>
+            <h4 id="container3Text">De kosten voor het stallen van je camper of caravan is €45,- per meter in lengte.</h4>
+            <a id="appointmentLink" class="nav-link" href="/Appointments/Index">Afspraken inzien</a>
+        </div> 
+     }
+    else
+    {
+        <div id="container3">
+            <h3 id="container3Title">Kosten</h3>
+            <h4 id="container3Text">De kosten voor het stallen van je camper of caravan is €45,- per meter in lengte.</h4>
+        </div>
+    }
 </body>
 </html>
