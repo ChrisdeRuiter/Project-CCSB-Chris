@@ -11,5 +11,8 @@ namespace Project_CCSB.Services
         public List<CustomerViewModel> GetCustomerList();
         public List<AdminViewModel> GetAdminList();
         public Task<int> AddUpdate(AppointmentViewModel model);
+        public List<CustomerViewModel> AdminAppointments(string adminid);
+        public List<AdminViewModel> CustomerAppointments(string costumerid);
+        public AppointmentViewModel GetById(int id);
     }
 }

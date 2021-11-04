@@ -26,6 +26,34 @@ function InitializeCalendar() {
                 editable: false,
                 select: function (event) {
                     onShowModal(event, null);
+                },
+                evenDisplay: 'block',
+                events: function (fethinfo, succesCallback, failureCallback) {
+                    $.ajax({
+                        url: routeURL + '/api/AppointmentApi/GetCalenderData?appointmentId' + $("appointmentId").val(),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            var events = [];
+                            if (response.status === 1) {
+                                $.each(response.dataenum, function (i, data) {
+                                    events.push({
+                                        title: data.title,
+                                        description: data.description,
+                                        start: data.startDate,
+                                        end: data.endDate,
+                                        backgroundColor: data.isAdminApproved ? "#28a745" : "#dc3545",
+                                        textColor: "white",
+                                        id: data.id
+                                    });
+                                })
+                            }
+                            succesCallback(events);
+                        },
+                        error: function (xhr) {
+                            $.notify("Emre", "emre");
+                        }
+                    });
                 }
             });
             kalender.render();
@@ -44,7 +72,9 @@ function onCloseModal() {
     $("#appointmentInput").modal("hide");
 }
 
+
 function onSubmitForm() {
+    if (!checkValidation()) return;
     var requestData = {
         AppointmentId: parseInt($("id").val()),
         TimeAndMoment: $("#appointmentDate").val(),

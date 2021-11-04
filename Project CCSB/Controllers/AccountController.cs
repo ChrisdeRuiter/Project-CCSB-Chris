@@ -86,6 +86,7 @@ namespace Project_CCSB.Controllers
                 await _roleManager.CreateAsync(new IdentityRole(Helper.Customer));
             }
             return View();
+
         }
         [HttpPost]
         public async Task<IActionResult> LogOff()

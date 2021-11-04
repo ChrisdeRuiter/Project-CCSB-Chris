@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Project_CCSB.Services
 {
     public class AppointmentService : IAppointmentService
@@ -38,7 +39,17 @@ namespace Project_CCSB.Services
                 return 2;
             }
         }
+        public AppointmentViewModel GetById(int id)
+        {
+            return _db.Appointments.Where(a => a.Id == id).ToList().Select(
+               c => new AppointmentViewModel()
+               {
+                   Id = c.Id,
+                   Description = c.Description,
+                  
 
+               }).SingleOrDefault();
+        }
         public List<AdminViewModel> GetAdminList()
         {
 
