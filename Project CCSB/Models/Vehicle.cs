@@ -15,6 +15,10 @@ namespace Project_CCSB.Models
         public decimal Length { get; set; }
         public string VehicleKind { get; set; }
         public string LicensePlate { get; set; }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        //public string AppointmentId { get; set; }
+        public Appointments Appointment { get; set; }
 
     }
 }

@@ -29,7 +29,7 @@ namespace Project_CCSB.Services
             else
             {
                 // Create appointment based on view model
-                Appointment appointment = new Appointment()
+                Appointments appointment = new Appointments()
                 {
                     OphalenId = model.OphalenId,
                     AppointmentId = model.AppointmentId,

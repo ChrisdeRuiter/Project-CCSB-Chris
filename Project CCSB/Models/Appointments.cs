@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_CCSB.Models
 {
-    public class Appointment
+    public class Appointments
     {
         [Key]
         public string OphalenId { get; set; }

@@ -14,8 +14,11 @@ namespace Project_CCSB.Models
         {
 
         }
-        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Appointments> Appointments { get; set; }
 
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Contract> Contract { get; set; }
+        public DbSet<Factuur> Factuur { get; set; }
     }
 }

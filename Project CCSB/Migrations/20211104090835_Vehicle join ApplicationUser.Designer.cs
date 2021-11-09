@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_CCSB.Models;
 
 namespace Project_CCSB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211104090835_Vehicle join ApplicationUser")]
+    partial class VehiclejoinApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,7 +226,7 @@ namespace Project_CCSB.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Project_CCSB.Models.Appointments", b =>
+            modelBuilder.Entity("Project_CCSB.Models.Appointment", b =>
                 {
                     b.Property<int>("AppointmentId")
                         .ValueGeneratedOnAdd()
@@ -242,111 +244,6 @@ namespace Project_CCSB.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("Project_CCSB.Models.Contract", b =>
-                {
-                    b.Property<int>("ContractId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EindDatum")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDatum")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ContractId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("Contract");
-                });
-
-            modelBuilder.Entity("Project_CCSB.Models.Customer", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreditCard")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Initials")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordConfirm")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CustomerId");
-
-                    b.ToTable("Customer");
-                });
-
-            modelBuilder.Entity("Project_CCSB.Models.Factuur", b =>
-                {
-                    b.Property<int>("FactuurNummer")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Bedrag")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FactuurDatum")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("FactuurNummer");
-
-                    b.HasIndex("ContractId");
-
-                    b.ToTable("Factuur");
-                });
-
             modelBuilder.Entity("Project_CCSB.Models.Vehicle", b =>
                 {
                     b.Property<int>("VehicleId")
@@ -356,9 +253,6 @@ namespace Project_CCSB.Migrations
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("AppointmentId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Length")
                         .HasColumnType("decimal(18,2)");
@@ -378,8 +272,6 @@ namespace Project_CCSB.Migrations
                     b.HasKey("VehicleId");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("AppointmentId");
 
                     b.ToTable("Vehicles");
                 });
@@ -435,49 +327,13 @@ namespace Project_CCSB.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project_CCSB.Models.Contract", b =>
-                {
-                    b.HasOne("Project_CCSB.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project_CCSB.Models.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Vehicle");
-                });
-
-            modelBuilder.Entity("Project_CCSB.Models.Factuur", b =>
-                {
-                    b.HasOne("Project_CCSB.Models.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contract");
-                });
-
             modelBuilder.Entity("Project_CCSB.Models.Vehicle", b =>
                 {
                     b.HasOne("Project_CCSB.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Project_CCSB.Models.Appointments", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId");
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("Appointment");
                 });
 #pragma warning restore 612, 618
         }
