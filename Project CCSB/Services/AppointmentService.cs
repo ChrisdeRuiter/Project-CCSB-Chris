@@ -31,6 +31,8 @@ namespace Project_CCSB.Services
                 // Create appointment based on view model
                 Appointment appointment = new Appointment()
                 {
+                    OphalenId = model.OphalenId,
+                    AppointmentId = model.AppointmentId,
                     TimeAndMoment = model.TimeAndMoment,
                     Action = model.Action
                 };
@@ -45,8 +47,12 @@ namespace Project_CCSB.Services
                c => new AppointmentViewModel()
                {
                    Id = c.Id,
-                   Description = c.Description,
-                  
+                   OphalenId = c.OphalenId,
+                   AppointmentId = c.AppointmentId,
+                   StartDate= c.StartDate.ToString("d-MM-yyyy HH:mm"),
+                   EndDate= c.EndDate.ToString("d-M-yyyy HH: mm"),
+                Action = c.Action,
+                   CustomerName = _db.Users.Where(u => u.Id == c.CustomerId).Select(u => u.FullName).FirstOrDefault(),
 
                }).SingleOrDefault();
         }
@@ -83,6 +89,16 @@ namespace Project_CCSB.Services
                              }
                              ).OrderBy(u => u.Name).ToList();
             return customers;
+        }
+
+        public List<CustomerViewModel> AdminAppointments(string adminid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<AdminViewModel> CustomerAppointments(string costumerid)
+        {
+            throw new NotImplementedException();
         }
     }
 };

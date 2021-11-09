@@ -9,7 +9,7 @@ namespace Project_CCSB.Controllers
 {
     public class AppointmentsController : Controller
     {
-        private readonly IAppointmentService _appointmentsService;
+        private readonly IAppointmentService _appointmentsService; 
 
         public AppointmentsController(IAppointmentService appointmentService)
         {

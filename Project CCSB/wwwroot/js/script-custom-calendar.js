@@ -3,8 +3,7 @@ $(document).ready(function () {
     $("#appointmentDate").kendoDateTimePicker({
         value: new Date(),
         dateInput: false,
-        format: "d-M-yyyy H:mm:ss",
-        timeFormat: "HH:mm"
+        
     });
     InitializeCalendar();
 });
@@ -51,9 +50,12 @@ function InitializeCalendar() {
                             succesCallback(events);
                         },
                         error: function (xhr) {
-                            $.notify("Emre", "emre");
+                            $.notify("Error", "error");
                         }
                     });
+                },
+                eventClick: function (info) {
+                    getEventDetailsByEventId(info.event);
                 }
             });
             kalender.render();
@@ -64,7 +66,36 @@ function InitializeCalendar() {
     }
 }
 
-function onShowModal(obj, isEventDeail) {
+function getEventDetailsByEventId(info) {
+    $.ajax({
+        url: routeURL + 'api/AppointmentApi/GetCalendarDataById/' + info.id,
+        type: "GET",
+        datatype: 'JSON',
+        contentType: "application/json",
+        succes: function (response) {
+            if (response.status === 1 && response.dataenum != undefined) {
+                onShowModal(response.dataenum, true);
+            } 
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+        }
+    });
+}
+function onShowModal(obj, isEventDetail) {
+    if (isEventDetail) {
+        $("#OphalenId").val(obj.OphalenId)
+        $("#title").val(obj.title)
+        $("#adminId").val(obj.adminId);
+        $("#customerId").val(obj.customerId);
+        $("#appointmentDate").val(obj.startDate);
+    }
+    else {
+        var appointmentdate = obj.start.getDate() + "-" + obj.start.getMonth() + "-" +
+            obj.start.getFullYear() + "" + new moment().format("hh:mm");
+        $("#id").val(0);
+        $("#appointmentDate").val(obj.appointmentdate);
+    }
     $("#appointmentInput").modal("show");
 }
 
@@ -72,10 +103,30 @@ function onCloseModal() {
     $("#appointmentInput").modal("hide");
 }
 
+function checkValidation() {
+    var isValid = true;
+    if ($("#title").val() === undefined || $("#title").val().trim() === "") {
+        isValid = false;
+        $("#title").removeClass("error");
+    }
+    else {
+        $("#title").addClass("error");
+    }
+    if ($("#appointmentDate").val() === undefined || $("#appointmentDate").val().trim() === "") {
+        isValid = false;
+        $("#appointmentDate").addClass("error");
+    }
+    else {
+        $("#appointmentDate").removeClass("error");
+    }
+    return isValid;
+}
+
 
 function onSubmitForm() {
     if (!checkValidation()) return;
     var requestData = {
+        OphalenId: $("#Ophalen").val(),
         AppointmentId: parseInt($("id").val()),
         TimeAndMoment: $("#appointmentDate").val(),
         Action: $("#action").val()

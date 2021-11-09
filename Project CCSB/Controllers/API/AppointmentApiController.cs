@@ -28,6 +28,26 @@ namespace Project_CCSB.Controllers.API
             role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
         }
+   
+
+        [HttpGet]
+        [Route("SaveCalendarDataById/{id}")]
+        public IActionResult SaveCalendarDataById(int id)
+        {
+            CommonResponse<AppointmentViewModel> commonResponse = new CommonResponse<AppointmentViewModel>();
+            try
+            {
+                commonResponse.Dataenum = _appointmentService.GetById(id);
+                commonResponse.Status = Helper.Succes_code;
+            }
+            catch (Exception ex)
+            {
+                  commonResponse.Message = ex.Message;
+                commonResponse.Status = Helper.Failure_code;
+            }
+            return Ok (commonResponse);
+        }
+
         [HttpPost]
         [Route("SaveCalendarData")]
         public IActionResult SaveCalendarData(AppointmentViewModel data)
