@@ -49,9 +49,8 @@ namespace Project_CCSB.Services
                    Id = c.Id,
                    OphalenId = c.OphalenId,
                    AppointmentId = c.AppointmentId,
-                   StartDate= c.StartDate.ToString("d-MM-yyyy HH:mm"),
-                   EndDate= c.EndDate.ToString("d-M-yyyy HH: mm"),
-                Action = c.Action,
+                 
+                   Action = c.Action,
                    CustomerName = _db.Users.Where(u => u.Id == c.CustomerId).Select(u => u.FullName).FirstOrDefault(),
 
                }).SingleOrDefault();
