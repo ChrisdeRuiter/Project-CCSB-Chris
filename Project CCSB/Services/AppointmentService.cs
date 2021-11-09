@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Project_CCSB.Services
 {
     public class AppointmentService : IAppointmentService
@@ -30,6 +31,8 @@ namespace Project_CCSB.Services
                 // Create appointment based on view model
                 Appointment appointment = new Appointment()
                 {
+                    OphalenId = model.OphalenId,
+                    AppointmentId = model.AppointmentId,
                     TimeAndMoment = model.TimeAndMoment,
                     Action = model.Action
                 };
@@ -38,7 +41,20 @@ namespace Project_CCSB.Services
                 return 2;
             }
         }
+        public AppointmentViewModel GetById(int id)
+        {
+            return _db.Appointments.Where(a => a.Id == id).ToList().Select(
+               c => new AppointmentViewModel()
+               {
+                   Id = c.Id,
+                   OphalenId = c.OphalenId,
+                   AppointmentId = c.AppointmentId,
+                 
+                   Action = c.Action,
+                   CustomerName = _db.Users.Where(u => u.Id == c.CustomerId).Select(u => u.FullName).FirstOrDefault(),
 
+               }).SingleOrDefault();
+        }
         public List<AdminViewModel> GetAdminList()
         {
 
@@ -72,6 +88,16 @@ namespace Project_CCSB.Services
                              }
                              ).OrderBy(u => u.Name).ToList();
             return customers;
+        }
+
+        public List<CustomerViewModel> AdminAppointments(string adminid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<AdminViewModel> CustomerAppointments(string costumerid)
+        {
+            throw new NotImplementedException();
         }
     }
 };
