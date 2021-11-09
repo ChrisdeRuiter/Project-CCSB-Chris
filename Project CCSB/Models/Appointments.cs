@@ -12,6 +12,7 @@ namespace Project_CCSB.Models
         public int AppointmentId { get; set; }
         public DateTime TimeAndMoment { get; set; }
         public string Action { get; set; }
+        public string VehicleId { get; set; }
 
         public List<Vehicle> Vehicles;
     }
