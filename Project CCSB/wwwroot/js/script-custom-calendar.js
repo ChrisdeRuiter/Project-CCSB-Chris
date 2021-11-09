@@ -128,7 +128,8 @@ function onSubmitForm() {
         OphalenId: $("#Ophalen").val(),
         AppointmentId: parseInt($("id").val()),
         TimeAndMoment: $("#appointmentDate").val(),
-        Action: $("#action").val()
+        Action: $("#action").val(),
+        customerId: $("#customerId").val()
     };
 
     $.ajax({

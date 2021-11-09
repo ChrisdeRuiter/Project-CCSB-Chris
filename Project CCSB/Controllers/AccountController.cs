@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
+using MailKit.Net.Smtp;
 using Project_CCSB.Models;
 using Project_CCSB.Models.ViewModels;
 using Project_CCSB.Utility;
@@ -54,7 +56,7 @@ namespace Project_CCSB.Controllers
             {
                 ApplicationUser user = new ApplicationUser()
                 {
-                    UserName = model.FirstName,
+                    UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     MiddleName = model.MiddleName,
@@ -66,6 +68,27 @@ namespace Project_CCSB.Controllers
                     // Assign role to user and log the user in and redirect to the homepage
                     await _userManager.AddToRoleAsync(user, model.RoleName);
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    var message = new MimeMessage();
+                    message.From.Add(new MailboxAddress("Registratie", "ccsbcampersite@gmail.com"));
+                    message.To.Add(new MailboxAddress(model.FirstName, model.Email));
+                    message.Subject = "Bedankt voor het registreren";
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = "Beste " + model.FirstName + ",\n" + "Er is zojuist een account geregistreerd bij camper-en carvan stalling Bentelo. " +
+                        "U kunt inloggen met de volgende gegevens:" + "\n" + "\n" + "Email: " + model.Email + "\n" + "Wachtwoord: " + model.Password + "\n" +
+                        "\n" + "Als deze gegevens niet kloppen of als deze email niet voor u bestemd is, kan je altijd bellen naar: 0687654321" + "\n" +
+                        "Met vriendelijke groet," + "\n" + "CCBS"
+                    };
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect("smtp.gmail.com", 587, false);
+                        client.Authenticate("ccsbcampersite@gmail.com", "CCSB@123");
+
+                        client.Send(message);
+
+                        client.Disconnect(true);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 // Add all errors to the modelstate
