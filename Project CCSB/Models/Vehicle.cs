@@ -17,8 +17,6 @@ namespace Project_CCSB.Models
         public string LicensePlate { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        //public string AppointmentId { get; set; }
-        public Appointments Appointment { get; set; }
 
     }
 }
