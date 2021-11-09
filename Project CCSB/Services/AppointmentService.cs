@@ -43,15 +43,14 @@ namespace Project_CCSB.Services
         }
         public AppointmentViewModel GetById(int id)
         {
-            return _db.Appointments.Where(a => a.Id == id).ToList().Select(
+            return _db.Appointments.Where(a => a.AppointmentId == id).ToList().Select(
                c => new AppointmentViewModel()
                {
-                   Id = c.Id,
+                   Id = c.AppointmentId,
                    OphalenId = c.OphalenId,
                    AppointmentId = c.AppointmentId,
                  
                    Action = c.Action,
-                   CustomerName = _db.Users.Where(u => u.Id == c.CustomerId).Select(u => u.FullName).FirstOrDefault(),
 
                }).SingleOrDefault();
         }

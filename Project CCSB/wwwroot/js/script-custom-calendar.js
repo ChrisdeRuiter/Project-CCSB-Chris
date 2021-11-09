@@ -87,7 +87,6 @@ function onShowModal(obj, isEventDetail) {
         $("#OphalenId").val(obj.OphalenId)
         $("#title").val(obj.title)
         $("#adminId").val(obj.adminId);
-        $("#customerId").val(obj.customerId);
         $("#appointmentDate").val(obj.startDate);
     }
     else {
